@@ -2225,8 +2225,11 @@ async function importBsTasks(bsId, all) {
   const data = await res.json();
   activeBrainstorm.status = 'imported';
   activeBrainstorm.importedTaskIds = data.ids;
-  renderBsChat();
   showToast(`Imported ${data.imported} tasks to backlog`);
+  // Refresh tasks and switch to board
+  tasks = await (await fetch(`${API}/api/tasks`)).json();
+  render();
+  navToBoard();
 }
 
 async function loadBsState() {
